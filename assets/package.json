@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ag-charts-community": "^13.0.0",
+    "ag-grid-community": "^35.0.0"
+  }
+}

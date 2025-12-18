@@ -1,0 +1,128 @@
+col,dummy,name
+v_type,0,Unknown
+v_type,1,Pedal cycle
+v_type,2,Motorcycle - moped
+v_type,4,Motorcycle (under 125cc)
+v_type,5,Motorcycle (125cc and above)
+v_type,6,Invalid vehicle / other 3 wheeler
+v_type,7,Car - taxi (hackney)
+v_type,8,Car
+v_type,9,Motor caravan
+v_type,14,Other motor vehicle
+v_type,15,Goods 3.5 tonnes or less
+v_type,16,Goods exceeding 3.5 tonnes but less than 7.5 tonnes
+v_type,17,Goods 7.5 tonnes or over
+v_type,18,Car (used as taxi)
+v_type,19,Minibus (8-16 passengers)
+v_type,20,Bus or coach (17+ passengers)
+v_type,21,Ridden horse
+v_type,22,Other non motor vehicle
+v_type,23,Motorcycle (engine size unknown)
+v_type,24,Goods vehicle (gross weight unknown)
+v_type,25,Agricultural vehicle
+v_tow,1,No towing / articulation
+v_tow,2,Articulated vehicle
+v_tow,3,Double / multiple trailer
+v_tow,4,Caravan
+v_tow,5,Single trailer
+v_tow,6,Other tow
+v_man,1,Reversing
+v_man,2,Parked
+v_man,3,About to go ahead - held up
+v_man,4,Slowing / stopping
+v_man,5,Moving off
+v_man,6,U-turn
+v_man,7,Turning left
+v_man,8,Waiting to turn left
+v_man,9,Turning right
+v_man,10,Waiting to turn right
+v_man,11,Changing lane to left
+v_man,12,Changing lane to right
+v_man,13,Overtaking moving vehicle on offside
+v_man,14,Overtaking stationary vehicle on offside
+v_man,15,Overtaking on nearside
+v_man,16,Going ahead left-hand bend
+v_man,17,Going ahead right-hand bend
+v_man,18,Going ahead other
+v_man,19,Other / not known
+v_loc,1,Leaving main road
+v_loc,2,Entering main road
+v_loc,3,On main road
+v_loc,4,On minor road
+v_loc,6,On lay-by or hard shoulder
+v_loc,7,Entering lay-by / hard shoulder
+v_loc,8,Leaving lay-by / hard shoulder
+v_loc,9,On cycle lane / cycle way
+v_loc,10,Pedestrian and vehicle shared precinct
+v_loc,11,Other public place
+v_loc,12,Bus lane / busway
+v_loc,13,Footpath (pavement)
+v_junc,1,Not at junction (or within 20m)
+v_junc,2,Approaching / waiting / parked at junction
+v_junc,3,Vehicle in middle junction
+v_junc,4,Cleared junction or waiting / parked at exit
+v_junc,5,Did not impact
+v_junc,6,Entering slip road
+v_junc,7,Exiting slip road
+v_skid,1,No skidding / jack-knifing / overturning
+v_skid,2,Skidded
+v_skid,3,Skidded and overturned
+v_skid,4,Jack-knifed
+v_skid,5,Jack-knifed and overturned
+v_skid,6,Overturned
+v_hit,1,None
+v_hit,2,Previous collision
+v_hit,3,Roadworks
+v_hit,6,Bridge (roof)
+v_hit,7,Bridge side
+v_hit,8,Bollard / refuge
+v_hit,9,Open door of vehicle
+v_hit,10,Central island of roundabout
+v_hit,11,Kerb
+v_hit,13,Other object
+v_hit,14,Any animal except ridden horse
+v_hit,15,Parked vehicle
+v_leave,1,Did not leave carriageway
+v_leave,2,Nearside
+v_leave,3,Nearside and rebounded
+v_leave,4,Straight ahead at junction
+v_leave,5,Offside onto central reservation
+v_leave,6,Offside onto central reservation and rebounded
+v_leave,7,Crossed central reservation
+v_leave,8,Offside
+v_leave,9,Offside and rebounded
+v_hitoff,1,None
+v_hitoff,2,Road sign / traffic signal
+v_hitoff,3,Lamp post
+v_hitoff,4,Telegraph / electricity pole
+v_hitoff,5,Tree / fence / other boundary
+v_hitoff,6,Bus stop / shelter
+v_hitoff,7,Central crash barrier
+v_hitoff,8,Nearside / offside crash barrier
+v_hitoff,9,Submerged in water
+v_hitoff,10,Entered ditch
+v_hitoff,11,Other permanent object
+v_impact,1,Did not impact
+v_impact,2,Front
+v_impact,3,Back
+v_impact,4,Offside
+v_impact,5,Nearside
+v_sex,1,Male
+v_sex,2,Female
+v_sex,3,Unknown
+v_agegroup,1,Under 10
+v_agegroup,2,10-16
+v_agegroup,3,17-24
+v_agegroup,4,25-34
+v_agegroup,5,35-44
+v_agegroup,6,45-54
+v_agegroup,7,55-64
+v_agegroup,8,65+
+v_agegroup,9,Unknown
+v_hitr,1,Other
+v_hitr,2,Hit and run
+v_hitr,3,Non-stop vehicle - not hit
+v_forreg,1,Not foreign registered vehicle
+v_forreg,2,Foreign registered vehicle ?C left hand drive
+v_forreg,3,Foreign registered vehicle ?C right hand drive
+v_forreg,4,Foreign registered vehicle ?C two wheeler
