@@ -2,56 +2,86 @@ defmodule OwlWeb.Live.Dashboard.Resolver do
   @moduledoc false
   alias Owl.Collisions
 
-  def init_data(params) do
-    params = %{
-      end_year: params["end_year"],
-      fatal: params["fatal"],
-      serious: params["serious"],
-      slight: params["slight"],
-      start_year: params["start_year"]
-    }
+  # Mapping AgGrid field names to database schema fields
+  @grid_to_field %{
+    "date" => :date,
+    "district" => :district,
+    "severity" => :severity,
+    "casualties" => :total_casualties,
+    "weather" => :weather,
+    "road_surface" => :road_surface
+  }
 
-    total_collisions = Collisions.count_collisions(params)
-    total_casualties = Collisions.calculate_total_casualties(params)
-    fatal_collisions = Collisions.calculate_fatal_casualties(params)
+  def init_data(params) do
+    # Ensure keys are atoms for the context/domain layer
+    search_params =
+      params
+      |> Map.take(["end_year", "fatal", "serious", "slight", "start_year"])
+      |> Map.new(fn {k, v} -> {String.to_existing_atom(k), v} end)
 
     chart_data =
-      params
+      search_params
       |> Collisions.list_collisions_count_per_month()
-      |> Enum.map(&%{month: get_month_short_name(&1.month), count: &1.count})
-
-    month_with_most_collisions = get_month_with_most_collisions(chart_data)
+      |> Enum.map(&%{month: format_month_year(&1.month), count: &1.count})
 
     %{
-      total_collisions: total_collisions,
-      total_casualties: total_casualties,
-      fatal_collisions: fatal_collisions,
+      total_collisions: Collisions.count_collisions(search_params),
+      total_casualties: Collisions.calculate_total_casualties(search_params),
+      fatal_collisions: Collisions.calculate_fatal_casualties(search_params),
       chart_data: chart_data,
-      month_with_most_collisions: month_with_most_collisions
+      month_with_most_collisions: find_peak_month(chart_data)
     }
   end
 
-  def get_paginated_collisions(params, start_row, end_row, sort_model) do
-    Collisions.list_collision_details_paginated(params, start_row, end_row, sort_model)
+  @doc """
+  Directly handles the raw map sent by the AgGrid "get_rows" event.
+  """
+  def get_paginated_collisions_from_grid(%{
+        "start_row" => start,
+        "end_row" => stop,
+        "sort_model" => sort_model,
+        "filters" => filters
+      }) do
+    sort_config = parse_sort_model(sort_model)
+
+    # Convert string keys to atoms so the Context function can pattern match/use them
+    atom_filters =
+      for {key, val} <- filters, into: %{} do
+        {String.to_existing_atom(key), val}
+      end
+
+    Collisions.list_collision_details_paginated(atom_filters, start, stop, sort_config)
   end
 
-  def get_collision_details(collision_uuid) do
-    Collisions.get_collision_detail(collision_uuid)
+  def get_collision_details(uuid), do: Collisions.get_collision_detail(uuid)
+
+  # --- Private Helpers ---
+
+  defp parse_sort_model([%{"colId" => col, "sort" => direction} | _]) do
+    case {@grid_to_field[col], direction} do
+      {field, "asc"} when not is_nil(field) -> {field, :asc}
+      {field, "desc"} when not is_nil(field) -> {field, :desc}
+      _ -> nil
+    end
   end
 
-  defp get_month_with_most_collisions(chart_data) do
+  defp parse_sort_model(_), do: nil
+
+  defp find_peak_month([]), do: "N/A"
+
+  defp find_peak_month(chart_data) do
     chart_data
-    |> Enum.sort_by(& &1.count, :desc)
-    |> List.first(%{})
-    |> Map.get(:month, "")
+    |> Enum.max_by(& &1.count, fn -> %{month: "N/A"} end)
+    |> Map.get(:month)
   end
 
-  defp get_month_short_name(month_with_year_string) do
-    [month, year] = String.split(month_with_year_string, "-")
-
-    date = Date.new!(2000, String.to_integer(month), 1)
-    month_name = Calendar.strftime(date, "%b")
-
-    "#{month_name}-#{year}"
+  defp format_month_year(month_year_str) do
+    with [m, y] <- String.split(month_year_str, "-"),
+         {month, _} <- Integer.parse(m),
+         {:ok, date} <- Date.new(2000, month, 1) do
+      "#{Calendar.strftime(date, "%b")}-#{y}"
+    else
+      _ -> month_year_str
+    end
   end
 end
